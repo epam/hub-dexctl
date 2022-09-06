@@ -7,9 +7,10 @@
 package config
 
 var (
-	Host      string
-	Port      string
-	CaPath    string
-	ClientCrt string
-	ClientKey string
+	Host         string
+	Port         string
+	CaPath       string
+	ClientCrt    string
+	ClientKey    string
+	SkipExitCode bool
 )

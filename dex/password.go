@@ -18,9 +18,8 @@ import (
 
 func CreatePassword(email string, password string) error {
 	conn, err := newGrpcConnection()
-
 	if err != nil {
-		return fmt.Errorf("failed to initialise connection to dex api: %s", err)
+		return getApiClientError(err)
 	}
 	defer conn.Close()
 
@@ -28,7 +27,8 @@ func CreatePassword(email string, password string) error {
 
 	hash, err := bcrypt.GenerateFromPassword([]byte(password), bcrypt.DefaultCost)
 	if err != nil {
-		return fmt.Errorf("failed to bcrypt password: %s", err)
+		err = fmt.Errorf("failed to bcrypt password: %s", err)
+		return getError(err)
 	}
 
 	userId := base64.StdEncoding.EncodeToString([]byte(email))
@@ -46,10 +46,12 @@ func CreatePassword(email string, password string) error {
 
 	if resp, err := client.CreatePassword(context.TODO(), req); err != nil || (resp != nil && resp.AlreadyExists) {
 		if resp != nil && resp.AlreadyExists {
-			return fmt.Errorf("password for %s already exists", email)
+			err = fmt.Errorf("password for %s already exists", email)
+			return getError(err)
 		}
 
-		return fmt.Errorf("failed to create password %s", err)
+		err = fmt.Errorf("failed to create password %s", err)
+		return getError(err)
 	}
 
 	return nil
@@ -57,9 +59,8 @@ func CreatePassword(email string, password string) error {
 
 func UpdatePassword(email string, newPassword string, newEmail string) error {
 	conn, err := newGrpcConnection()
-
 	if err != nil {
-		return fmt.Errorf("failed to initialise connection to dex api: %s", err)
+		return getApiClientError(err)
 	}
 	defer conn.Close()
 
@@ -67,7 +68,8 @@ func UpdatePassword(email string, newPassword string, newEmail string) error {
 
 	hash, err := bcrypt.GenerateFromPassword([]byte(newPassword), bcrypt.DefaultCost)
 	if err != nil {
-		return fmt.Errorf("failed to bcrypt password: %s", err)
+		err = fmt.Errorf("failed to bcrypt password: %s", err)
+		return getError(err)
 	}
 
 	req := &api.UpdatePasswordReq{
@@ -78,19 +80,20 @@ func UpdatePassword(email string, newPassword string, newEmail string) error {
 
 	if resp, err := client.UpdatePassword(context.TODO(), req); err != nil || (resp != nil && resp.NotFound) {
 		if resp != nil && resp.NotFound {
-			return fmt.Errorf("password for %s not found", email)
+			err = fmt.Errorf("password for %s not found", email)
+			return getError(err)
 		}
 
-		return fmt.Errorf("failed to update password %s", err)
+		err = fmt.Errorf("failed to update password %s", err)
+		return getError(err)
 	}
 	return nil
 }
 
 func DeletePassword(email string) error {
 	conn, err := newGrpcConnection()
-
 	if err != nil {
-		return fmt.Errorf("failed to initialise connection to dex api: %s", err)
+		return getApiClientError(err)
 	}
 	defer conn.Close()
 
@@ -101,10 +104,12 @@ func DeletePassword(email string) error {
 	}
 	if resp, err := client.DeletePassword(context.TODO(), req); err != nil || (resp != nil && resp.NotFound) {
 		if resp != nil && resp.NotFound {
-			return fmt.Errorf("password for %s not found", email)
+			err = fmt.Errorf("password %s not found", email)
+			return getError(err)
 		}
 
-		return fmt.Errorf("failed to update password %s", err)
+		err = fmt.Errorf("failed to delete password %s", err)
+		return getError(err)
 	}
 
 	return nil

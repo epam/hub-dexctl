@@ -37,6 +37,7 @@ func init() {
 	rootCmd.PersistentFlags().StringVar(&config.CaPath, "caPath", "", "Path to CA certificate file")
 	rootCmd.PersistentFlags().StringVar(&config.ClientCrt, "clientCrt", "", "Path to client certificate file")
 	rootCmd.PersistentFlags().StringVar(&config.ClientKey, "clientKey", "", "Path to client key file")
+	rootCmd.PersistentFlags().BoolVar(&config.SkipExitCode, "skip-exit-code", false, "Skip exit code on error")
 }
 
 func initConfig() {

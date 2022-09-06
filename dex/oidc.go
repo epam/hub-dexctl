@@ -15,9 +15,8 @@ import (
 
 func CreateOidc(clientId string, clientSecret string, redirectUris []string, trustedPeers []string, public bool, name string, logoUrl string) error {
 	conn, err := newGrpcConnection()
-
 	if err != nil {
-		return fmt.Errorf("failed to initialise connection to dex api: %s", err)
+		return getApiClientError(err)
 	}
 	defer conn.Close()
 
@@ -39,10 +38,12 @@ func CreateOidc(clientId string, clientSecret string, redirectUris []string, tru
 
 	if resp, err := client.CreateClient(context.TODO(), req); err != nil || (resp != nil && resp.AlreadyExists) {
 		if resp != nil && resp.AlreadyExists {
-			return fmt.Errorf("oauth client %s already exists", clientId)
+			err = fmt.Errorf("oauth client %s already exists", clientId)
+			return getError(err)
 		}
 
-		return fmt.Errorf("failed to create oauth client %s", err)
+		err = fmt.Errorf("failed to create oauth client %s", err)
+		return getError(err)
 	}
 
 	return nil
@@ -50,9 +51,8 @@ func CreateOidc(clientId string, clientSecret string, redirectUris []string, tru
 
 func UpdateOidc(clientId string, redirectUris []string, trustedPeers []string, name string, logoUrl string) error {
 	conn, err := newGrpcConnection()
-
 	if err != nil {
-		return fmt.Errorf("failed to initialise connection to dex api: %s", err)
+		return getApiClientError(err)
 	}
 	defer conn.Close()
 
@@ -68,10 +68,12 @@ func UpdateOidc(clientId string, redirectUris []string, trustedPeers []string, n
 
 	if resp, err := client.UpdateClient(context.TODO(), req); err != nil || (resp != nil && resp.NotFound) {
 		if resp != nil && resp.NotFound {
-			return fmt.Errorf("oauth client %s not found", clientId)
+			err = fmt.Errorf("oauth client %s not found", clientId)
+			return getError(err)
 		}
 
-		return fmt.Errorf("failed to update oauth client %s", err)
+		err = fmt.Errorf("failed to update oauth client %s", err)
+		return getError(err)
 	}
 
 	return nil
@@ -79,9 +81,8 @@ func UpdateOidc(clientId string, redirectUris []string, trustedPeers []string, n
 
 func DeleteOidc(clientId string) error {
 	conn, err := newGrpcConnection()
-
 	if err != nil {
-		return fmt.Errorf("failed to initialise connection to dex api: %s", err)
+		return getApiClientError(err)
 	}
 	defer conn.Close()
 
@@ -93,10 +94,12 @@ func DeleteOidc(clientId string) error {
 
 	if resp, err := client.DeleteClient(context.TODO(), req); err != nil || (resp != nil && resp.NotFound) {
 		if resp != nil && resp.NotFound {
-			return fmt.Errorf("oauth client %s not found", clientId)
+			err = fmt.Errorf("oauth client %s not found", clientId)
+			return getError(err)
 		}
 
-		return fmt.Errorf("failed to update oauth client %s", err)
+		err = fmt.Errorf("failed to delete oauth client %s", err)
+		return getError(err)
 	}
 
 	return nil

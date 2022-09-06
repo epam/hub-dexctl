@@ -61,3 +61,17 @@ func newGrpcConnection() (*grpc.ClientConn, error) {
 	}
 	return conn, nil
 }
+
+func getError(err error) error {
+	if config.SkipExitCode {
+		fmt.Print(err)
+		return nil
+	}
+
+	return err
+}
+
+func getApiClientError(err error) error {
+	err = fmt.Errorf("failed to initialise connection to dex api: %s", err)
+	return getError(err)
+}
