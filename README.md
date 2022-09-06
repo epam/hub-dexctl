@@ -6,7 +6,7 @@ A command line tool which communicate with [The Dex API](https://dexidp.io/docs/
 
 ### Usage
 
-Values for global flags `host`, `port`, `caCert`, `clientCert` and `clientKey` could be also read from env variables with prefix `DEX_API`
+Values for global flags `host`, `port`, `ca-cert`, `client-cert` and `client-key` could be also read from env variables with prefix `DEX_API`
 
 ```bash
 DEX_API_HOST="api.mydex.com" dexctl create password --email my@email.com --password verystrongpassword
