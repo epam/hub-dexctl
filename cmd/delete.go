@@ -37,8 +37,8 @@ func init() {
 	deletePasswordCmd.MarkFlagRequired("email")
 	deleteCmd.AddCommand(deletePasswordCmd)
 
-	deleteOidcCmd.Flags().StringVarP(&clientId, "clientId", "c", "", "Client ID used to identify the client")
-	deleteOidcCmd.MarkFlagRequired("clientId")
+	deleteOidcCmd.Flags().StringVarP(&clientId, "client-id", "c", "", "Client ID used to identify the client")
+	deleteOidcCmd.MarkFlagRequired("client-id")
 	deleteCmd.AddCommand(deleteOidcCmd)
 
 	rootCmd.AddCommand(deleteCmd)

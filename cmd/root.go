@@ -34,9 +34,9 @@ func init() {
 
 	rootCmd.PersistentFlags().StringVar(&config.Host, "host", "127.0.0.1", "Host address of Dex API")
 	rootCmd.PersistentFlags().StringVar(&config.Port, "port", "5557", "Port of Dex API")
-	rootCmd.PersistentFlags().StringVar(&config.CaPath, "caPath", "", "Path to CA certificate file")
-	rootCmd.PersistentFlags().StringVar(&config.ClientCrt, "clientCrt", "", "Path to client certificate file")
-	rootCmd.PersistentFlags().StringVar(&config.ClientKey, "clientKey", "", "Path to client key file")
+	rootCmd.PersistentFlags().StringVar(&config.CaPath, "ca-path", "", "Path to CA certificate file")
+	rootCmd.PersistentFlags().StringVar(&config.ClientCrt, "client-crt", "", "Path to client certificate file")
+	rootCmd.PersistentFlags().StringVar(&config.ClientKey, "client-key", "", "Path to client key file")
 	rootCmd.PersistentFlags().BoolVar(&config.SkipExitCode, "skip-exit-code", false, "Skip exit code on error")
 }
 
@@ -53,15 +53,15 @@ func initConfig() {
 		config.Port = port
 	}
 
-	if caPath := viper.GetString("caPath"); caPath != "" {
+	if caPath := viper.GetString("ca-path"); caPath != "" {
 		config.CaPath = caPath
 	}
 
-	if clientCrt := viper.GetString("clientCrt"); clientCrt != "" {
+	if clientCrt := viper.GetString("client-crt"); clientCrt != "" {
 		config.ClientCrt = clientCrt
 	}
 
-	if clientKey := viper.GetString("clientKey"); clientKey != "" {
+	if clientKey := viper.GetString("client-key"); clientKey != "" {
 		config.ClientKey = clientKey
 	}
 }
