@@ -1,4 +1,4 @@
-module github.com/agilestacks/dexctl
+module github.com/epam/hub-dexctl
 
 go 1.18
 

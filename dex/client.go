@@ -16,7 +16,7 @@ import (
 	"google.golang.org/grpc/credentials"
 	"google.golang.org/grpc/credentials/insecure"
 
-	"github.com/agilestacks/dexctl/config"
+	"github.com/epam/hub-dexctl/config"
 )
 
 func newGrpcConnection() (*grpc.ClientConn, error) {

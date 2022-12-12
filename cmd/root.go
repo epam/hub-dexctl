@@ -11,7 +11,7 @@ import (
 	"os"
 	"strings"
 
-	"github.com/agilestacks/dexctl/config"
+	"github.com/epam/hub-dexctl/config"
 
 	"github.com/spf13/cobra"
 	"github.com/spf13/viper"

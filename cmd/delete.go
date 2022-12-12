@@ -7,7 +7,7 @@
 package cmd
 
 import (
-	"github.com/agilestacks/dexctl/dex"
+	"github.com/epam/hub-dexctl/dex"
 	"github.com/spf13/cobra"
 )
 

@@ -25,9 +25,9 @@ go mod download
 ```bash
 go build -o bin/$(go env GOOS)/dexctl \
     -ldflags="-s -w \
-    -X 'github.com/agilestacks/dexctl/cmd.ref=$(git rev-parse --abbrev-ref HEAD)' \
-    -X 'github.com/agilestacks/dexctl/cmd.commit=$(git rev-parse --short HEAD)' \
-    -X 'github.com/agilestacks/dexctl/cmd.buildAt=$(date +"%Y.%m.%d %H:%M %Z")'"
+    -X 'github.com/epam/hub-dexctl/cmd.ref=$(git rev-parse --abbrev-ref HEAD)' \
+    -X 'github.com/epam/hub-dexctl/cmd.commit=$(git rev-parse --short HEAD)' \
+    -X 'github.com/epam/hub-dexctl/cmd.buildAt=$(date +"%Y.%m.%d %H:%M %Z")'"
 ```
 
 ### Run
@@ -41,7 +41,7 @@ go build -o bin/$(go env GOOS)/dexctl \
 Docker image is based on distoless image [static-debian11](https://github.com/GoogleContainerTools/distroless/blob/main/base/README.md)
 
 ```bash
-IMAGE_NAME="gcr.io/superhub/dexctl";
+IMAGE_NAME="ghcr.io/epam/dexctl";
 IMAGE_TAG="$(git rev-parse --short HEAD)";
 docker buildx build --tag "${IMAGE_NAME}:${IMAGE_TAG}" --tag "${IMAGE_NAME}:latest" . ;
 ```
@@ -51,6 +51,6 @@ docker buildx build --tag "${IMAGE_NAME}:${IMAGE_TAG}" --tag "${IMAGE_NAME}:late
 Before commit and submit pull request run next commands
 
 ```bash
-go fmt github.com/agilestacks/dexctl/...
-go vet github.com/agilestacks/dexctl/...
+go fmt github.com/epam/hub-dexctl/...
+go vet github.com/epam/hub-dexctl/...
 ```
